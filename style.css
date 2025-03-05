@@ -165,13 +165,13 @@ body {
 
 .bus-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   background-color: #ffffff;
 }
 
 .bus-header {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   font-weight: bold;
   background: #103095;
   padding: 10px 0;
@@ -180,7 +180,8 @@ body {
 .number,
 .depart,
 .arrive,
-.note {
+.note,
+.yeongnamnu {
   color: white;
   padding: 5px;
   text-align: center;
@@ -194,16 +195,31 @@ body {
   text-align: center;
 }
 
-.see-all {
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  margin-top: 15px;
   font-size: 14px;
   font-weight: bold;
-  color: #103095;
-  margin-top: 20px;
+  text-align: center;
+  color: white;
+  background-color: #103095;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.see-all:hover {
-  color: #3355cc;
-  text-decoration: underline;
+.btn:hover {
+  background-color: #0a236e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }

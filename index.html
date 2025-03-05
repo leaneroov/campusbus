@@ -17,13 +17,21 @@
         <nav class="nav-bar">
           <ul class="nav-list">
             <li class="nav-item active">
-              <a href="index.html" class="nav-link">MAIN</a>
+              <a href="#" class="nav-link">MAIN</a>
             </li>
             <li class="nav-item">
-              <a href="timetable.html" class="nav-link">버스시간표</a>
+              <a
+                href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000076490&fileSn=1&fileName=BBS_202501060246536911&fileSn=1&docName=1"
+                class="nav-link"
+                >버스시간표</a
+              >
             </li>
             <li class="nav-item">
-              <a href="route.html" class="nav-link">노선표</a>
+              <a
+                href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000057458&fileSn=5&fileName=BBS_202309070216369885&fileSn=5&docName=bus-every-20230907"
+                class="nav-link"
+                >노선표</a
+              >
             </li>
           </ul>
         </nav>
@@ -60,11 +68,15 @@
               <div class="number">노선명</div>
               <div class="depart">부산대</div>
               <div class="arrive">밀양역</div>
-              <div class="note">기타</div>
+              <div class="yeongnamnu">영남루</div>
+              <div class="note">비고</div>
             </div>
+            <!-- 기본 테이블 (최대 3개 항목) -->
             <div id="first-timetable"></div>
+
+            <div id="all-timetable1" style="display: none"></div>
           </div>
-          <p class="see-all" id="first-see-all">전체 시간표 보기</p>
+          <p class="btn" id="btn1">전체 시간표 보기</p>
         </div>
       </div>
       <!-- 1table -->
@@ -76,19 +88,23 @@
           <div class="bus-table">
             <div class="bus-header">
               <div class="number">노선명</div>
+              <div class="yeongnamnu">영남루</div>
               <div class="depart">밀양역</div>
               <div class="arrive">부산대</div>
-              <div class="note">기타</div>
+              <div class="note">비고</div>
             </div>
             <div id="second-timetable"></div>
+
+            <div id="all-timetable2" style="display: none"></div>
           </div>
-          <p class="see-all" id="second-see-all">전체 시간표 보기</p>
+          <p class="btn" id="btn2">전체 시간표 보기</p>
         </div>
       </div>
       <!-- 2table -->
       <!------------------------------------------------------->
     </div>
     <!-- 컨테이너 끝 -->
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
+    <script type="module" src="busdata.js"></script>
   </body>
 </html>
