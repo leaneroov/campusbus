@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miryang Campus Bus System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a href="index.html" class="header_text">MAIN</a>
+      </header>
+      <!--header-->
+      <!------------------------------------------------------->
+      <div class="navbar-container">
+        <nav class="nav-bar">
+          <ul class="nav-list">
+            <li class="nav-item active">
+              <a href="index.html" class="nav-link">MAIN</a>
+            </li>
+            <li class="nav-item">
+              <a href="timetable.html" class="nav-link">버스시간표</a>
+            </li>
+            <li class="nav-item">
+              <a href="route.html" class="nav-link">노선표</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!--nav-->
+      <!------------------------------------------------------->
+      <div class="inform">
+        <div class="inform-box">
+          <p class="inform-text">
+            부산대 → 밀양역: 출발버스 2시 20분, 다음 버스 4시 20분
+          </p>
+        </div>
+        <!--1inform-->
+        <div class="inform-box">
+          <p class="inform-text">
+            부산대 → 밀양역: 출발버스 2시 20분, 다음 버스 4시 20분
+          </p>
+        </div>
+        <!--2inform-->
+        <div class="inform-box">
+          <p class="inform-text">
+            부산대 → 밀양역: 출발버스 2시 20분, 다음 버스 4시 20분
+          </p>
+        </div>
+        <!--3infrom-->
+      </div>
+      <!--inform-->
+      <!------------------------------------------------------->
+      <div class="table-box">
+        <div class="table">
+          <p class="table-title">부산대 밀양캠퍼스 → 밀양역</p>
+          <div class="bus-table">
+            <div class="bus-header">
+              <div class="number">노선명</div>
+              <div class="depart">부산대</div>
+              <div class="arrive">밀양역</div>
+              <div class="note">기타</div>
+            </div>
+            <div id="first-timetable"></div>
+          </div>
+          <p class="see-all" id="first-see-all">전체 시간표 보기</p>
+        </div>
+      </div>
+      <!-- 1table -->
+      <!------------------------------------------------------->
+      <div class="table-box">
+        <div class="table">
+          <p class="table-title">밀양역 → 부산대 밀양캠퍼스</p>
+
+          <div class="bus-table">
+            <div class="bus-header">
+              <div class="number">노선명</div>
+              <div class="depart">밀양역</div>
+              <div class="arrive">부산대</div>
+              <div class="note">기타</div>
+            </div>
+            <div id="second-timetable"></div>
+          </div>
+          <p class="see-all" id="second-see-all">전체 시간표 보기</p>
+        </div>
+      </div>
+      <!-- 2table -->
+      <!------------------------------------------------------->
+    </div>
+    <!-- 컨테이너 끝 -->
+    <script src="script.js"></script>
+  </body>
+</html>

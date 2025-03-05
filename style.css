@@ -1,0 +1,209 @@
+body {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
+  background: #d1d1d1;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    position: relative;
+    width: 480px;
+    max-width: 90%;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+  }
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background: #103095;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.header_text {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.nav-link {
+  color: #103095;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #103095;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #e6e6ff;
+}
+
+.active .nav-link {
+  background-color: #103095;
+  color: white;
+  border: 1px solid white;
+}
+
+.inform {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inform-box {
+  width: 95%;
+  padding: 10px 4px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-sizing: border-box;
+  border: 1px solid #103095;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 7px auto;
+}
+
+.inform-text {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  color: #018738;
+  margin: 0;
+}
+
+.table-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  border-radius: 8px;
+  background: #ffffff;
+  box-sizing: border-box;
+  border: 1px solid #103095;
+  padding: 15px 8px;
+  margin: 0 auto;
+}
+
+.table-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #103095;
+  margin: 0 0 15px 0;
+}
+
+.timetable-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #103095;
+}
+
+.bus-table {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  border: 1px solid #103095;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bus-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: #ffffff;
+}
+
+.bus-header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  font-weight: bold;
+  background: #103095;
+  padding: 10px 0;
+}
+
+.number,
+.depart,
+.arrive,
+.note {
+  color: white;
+  padding: 5px;
+  text-align: center;
+}
+
+.bus-cell {
+  padding: 12px;
+  color: #018738;
+  font-weight: bold;
+  border-bottom: 1px solid #d6d6d6;
+  text-align: center;
+}
+
+.see-all {
+  font-size: 14px;
+  font-weight: bold;
+  color: #103095;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.see-all:hover {
+  color: #3355cc;
+  text-decoration: underline;
+}
