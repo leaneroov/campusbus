@@ -1,6 +1,9 @@
 import busdata from "./busdata.js";
 const btn1 = document.getElementById("btn1");
 const btn2 = document.getElementById("btn2");
+const refreshBtn = document.getElementById("refresh-btn");
+const allTable1 = document.getElementById("all-timetable1");
+const allTable2 = document.getElementById("all-timetable2");
 
 document.addEventListener("DOMContentLoaded", function () {
   const cam2sta = busdata.cam2sta;
@@ -8,16 +11,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let showallTable1 = false;
   let showallTable2 = false;
+  let refreshTime = null;
+  let minuteTime = null;
+  let isRefreshing = false;
+  let refreshCount = 0; // 초기 새로고침 횟수
 
-  let allTable1 = document.getElementById("all-timetable1");
-  let allTable2 = document.getElementById("all-timetable2");
-
-  if (allTable1) {
-    allTable1.style.display = "none";
-  }
-  if (allTable2) {
-    allTable2.style.display = "none";
-  }
+  allTable1.style.display = "none";
+  allTable2.style.display = "none";
 
   try {
     // 데이터 확인
@@ -41,7 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (showUpcomingOnly) {
       // 현재 시간 이후 버스만 필터링
       showData = data.filter((item) => {
-        if (!item.depart) return false;
+        if (!item.depart) {
+          return false;
+        }
         const timeParts = item.depart.split(":");
         const hour = Number(timeParts[0]); // 시
         const minute = Number(timeParts[1]); // 분
@@ -89,7 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function addallInfo(tableId, data, showUpcomingOnly = true) {
     const table = document.getElementById(tableId);
-    if (!table) return;
+    if (!table) {
+      return;
+    }
 
     table.innerHTML = "";
 
@@ -99,7 +103,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let showData = data;
     if (showUpcomingOnly) {
       showData = data.filter((item) => {
-        if (!item.depart) return false;
+        if (!item.depart) {
+          return false;
+        }
         const timeParts = item.depart.split(":");
         const hour = Number(timeParts[0]);
         const minute = Number(timeParts[1]);
@@ -138,16 +144,77 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function updateButtonText() {
-    if (btn1) btn1.textContent = showallTable1 ? "접기" : "전체 시간표 보기";
-    if (btn2) btn2.textContent = showallTable2 ? "접기" : "전체 시간표 보기";
+    if (btn1) {
+      btn1.textContent = showallTable1 ? "접기" : "전체 시간표 보기";
+    }
+    if (btn2) {
+      btn2.textContent = showallTable2 ? "접기" : "전체 시간표 보기";
+    }
   }
 
-  addinfo("first-timetable", cam2sta, true);
-  addinfo("second-timetable", sta2cam, true);
-  addallInfo("all-timetable1", cam2sta, true);
-  addallInfo("all-timetable2", sta2cam, true);
+  function updateCell() {
+    addinfo("first-timetable", cam2sta, !showallTable1);
+    addinfo("second-timetable", sta2cam, !showallTable2);
+  }
 
-  document.getElementById("btn1").addEventListener("click", function () {
+  function autoRefresh() {
+    stopRefreshes();
+    refreshBtn.classList.add("rotating");
+    updateCell();
+    isRefreshing = true;
+    refreshCount = 0;
+
+    refreshTime = setInterval(() => {
+      updateCell();
+      refreshCount += 1;
+
+      // 4번 자동 새로고침 -> 1분 간격으로 자로고침
+      if (refreshCount >= 4) {
+        stopFirstRefresh();
+        startMinuteRefresh();
+      }
+    }, 5000); //5초
+  }
+
+  function stopFirstRefresh() {
+    if (refreshTime) {
+      clearInterval(refreshTime);
+      refreshTime = null;
+    }
+  }
+
+  // 1분 마다 새로고침
+  function startMinuteRefresh() {
+    minuteTime = setInterval(() => {
+      updateCell();
+    }, 60000); // 1분
+  }
+
+  function stopRefreshes() {
+    stopFirstRefresh();
+    if (minuteTime) {
+      clearInterval(minuteTime);
+      minuteTime = null;
+    }
+    refreshBtn.classList.remove("rotating");
+    isRefreshing = false;
+  }
+
+  function toggleRefresh() {
+    if (isRefreshing) {
+      stopRefreshes();
+    } else {
+      autoRefresh();
+    }
+  }
+  addallInfo("all-timetable1", cam2sta, !showallTable1);
+  addallInfo("all-timetable2", sta2cam, !showallTable2);
+
+  updateCell();
+  updateButtonText();
+  autoRefresh();
+
+  btn1.addEventListener("click", function () {
     showallTable1 = !showallTable1;
 
     if (allTable1) {
@@ -159,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateButtonText();
   });
 
-  document.getElementById("btn2").addEventListener("click", function () {
+  btn2.addEventListener("click", function () {
     showallTable2 = !showallTable2;
     if (allTable2) {
       allTable2.style.display = showallTable2 ? "block" : "none";
@@ -169,5 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateButtonText();
   });
 
-  updateButtonText();
+  refreshBtn.addEventListener("click", function () {
+    toggleRefresh(); // 새로고침 버튼 클릭시 리프레시 그만
+  });
 });
