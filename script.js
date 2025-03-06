@@ -37,10 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes(); // 현재시간 분으로 변환
 
-    let showData = data;
+    let showData = [...data];
     if (showUpcomingOnly) {
       // 현재 시간 이후 버스만 필터링
-      showData = data.filter((item) => {
+      let upcomingCount = 0;
+      showData = showData.filter((item) => {
         if (!item.depart) {
           return false;
         }
@@ -48,7 +49,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const hour = Number(timeParts[0]); // 시
         const minute = Number(timeParts[1]); // 분
         const convertDpt = hour * 60 + minute; // 시간 분으로 전환
-        return convertDpt >= currentTime; // 현재시간보다 늦은 버스만 표시
+
+        if (
+          convertDpt >= currentTime &&
+          (tableId.includes("all") || upcomingCount < 3)
+        ) {
+          upcomingCount++;
+          return true;
+        }
+        return false;
       });
     }
 
@@ -100,9 +109,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
 
-    let showData = data;
+    let showData = [...data];
     if (showUpcomingOnly) {
-      showData = data.filter((item) => {
+      let upcomingBuses = showData.filter((item) => {
         if (!item.depart) {
           return false;
         }
@@ -112,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const convertDpt = hour * 60 + minute;
         return convertDpt >= currentTime;
       });
+      showData = upcomingBuses.slice(3);
     }
 
     // 3개 밑에 데이터만 표시
