@@ -33,75 +33,61 @@ document.addEventListener("DOMContentLoaded", function () {
   allTable1.style.display = "none";
   allTable2.style.display = "none";
 
-  function busTables(route1Data, route2Data) {
+  function busTables() {
     //버스 시간 함수
     const now = new Date(); // 현재 시간
     const currentTime = now.getHours() * 60 + now.getMinutes(); // 시 -> 분
 
-    // 부산대→밀양역
-    const cam2staRoute = route1Data.filter((bus) => {
-      if (!bus.depart) {
-        return false;
-      }
+    const nextCam2sta = cam2sta.filter((bus) => {
+      if (!bus.depart) return false;
       const timeParts = bus.depart.split(":");
-      const hour = Number(timeParts[0]); // 시
-      const minute = Number(timeParts[1]); // 분
-      const convertDpt = hour * 60 + minute; // 시 -> 분
+      const hour = Number(timeParts[0]);
+      const minute = Number(timeParts[1]);
+      const convertDpt = hour * 60 + minute;
       return convertDpt >= currentTime;
     });
 
-    // 밀양역→부산대
-    const sta2camRoute = route2Data.filter((bus) => {
-      if (!bus.depart) {
-        return false;
-      }
+    const nextSta2cam = sta2cam.filter((bus) => {
+      if (!bus.depart) return false;
       const timeParts = bus.depart.split(":");
-      const hour = Number(timeParts[0]); //분
-      const minute = Number(timeParts[1]); //시
-      const convertDpt = hour * 60 + minute; // 시 -> 분
+      const hour = Number(timeParts[0]);
+      const minute = Number(timeParts[1]);
+      const convertDpt = hour * 60 + minute;
       return convertDpt >= currentTime;
     });
 
-    // 부산대→밀양역 표
-    updateRouteTable(
-      cam2staRoute,
-      firstTable,
-      allTable1,
-      true // 부산대 -> 밀양역
-    );
-
-    // 밀양역→부산대 표
-    updateRouteTable(
-      sta2camRoute,
-      secondTable,
-      allTable2,
-      false //밀양역 -> 부산대
-    );
-
-    // inform-text 업데이트
-    updateInformText(cam2staRoute, sta2camRoute, currentTime);
+    updateMainTable(nextCam2sta, firstTable, true);
+    updateMainTable(nextSta2cam, secondTable, false);
+    updateFullTable(cam2sta, allTable1, true);
+    updateFullTable(sta2cam, allTable2, false);
+    updateInformText(nextCam2sta, nextSta2cam, currentTime);
   }
 
-  // 제일 빠른 3개 시간표 업데이트
-  function updateRouteTable(data, mainTable, allTable, isRoute1) {
-    if (!mainTable || !allTable) {
-      return;
-    }
+  function updateMainTable(data, table, isRoute1) {
+    if (!table) return;
 
-    mainTable.innerHTML = "";
-    allTable.innerHTML = "";
+    table.innerHTML = "";
 
     if (data.length === 0) {
-      mainTable.innerHTML = `<div class="bus-row"><div class="bus-cell" style="grid-column: 1 / span 5; text-align: center;">운행 예정 버스 없음.</div></div>`;
+      table.innerHTML = `<div class="bus-row"><div class="bus-cell" style="grid-column: 1 / span 5; text-align: center;">운행 예정 버스 없음.</div></div>`;
       return;
     }
 
-    const topItems = data.slice(0, 3); // 제일 빠른 3개
-    const remainingItems = data.slice(3); // 나머지 전체
+    // 제일 빠른 3개만 표시
+    const topItems = data.slice(0, 3);
+    appendBusRows(topItems, table, isRoute1);
+  }
 
-    appendBusRows(topItems, mainTable, isRoute1);
+  function updateFullTable(data, table, isRoute1) {
+    if (!table) return;
 
-    appendBusRows(remainingItems, allTable, isRoute1);
+    table.innerHTML = "";
+
+    if (data.length === 0) {
+      table.innerHTML = `<div class="bus-row"><div class="bus-cell" style="grid-column: 1 / span 5; text-align: center;">시간표 데이터 없음.</div></div>`;
+      return;
+    }
+    appendBusRows(data, table, isRoute1);
   }
 
   function appendBusRows(busData, table, isRoute1) {
@@ -233,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function updateCell() {
-    busTables(cam2sta, sta2cam);
+    busTables();
   }
 
   function autoRefresh() {
@@ -262,12 +248,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Add missing iszerosec function
   function iszerosec(callback, delay) {
     setTimeout(callback, delay);
   }
 
-  // 00초 마다 새로고침
   function zerosecRefresh() {
     const now = new Date();
     const seconds = now.getSeconds();
@@ -308,12 +292,14 @@ document.addEventListener("DOMContentLoaded", function () {
   btn1.addEventListener("click", function () {
     showallTable1 = !showallTable1;
     allTable1.style.display = showallTable1 ? "block" : "none";
+    firstTable.style.display = showallTable1 ? "none" : "block";
     updateButtonText();
   });
 
   btn2.addEventListener("click", function () {
     showallTable2 = !showallTable2;
     allTable2.style.display = showallTable2 ? "block" : "none";
+    secondTable.style.display = showallTable2 ? "none" : "block";
     updateButtonText();
   });
 

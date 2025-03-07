@@ -112,19 +112,20 @@ const busdata = {
       yeongnamnu: "14:47",
       note: "",
     },
-    {
-      number: "1",
-      depart: "15:28",
-      arrive: "15:44",
-      yeongnamnu: "15:51",
-      note: "",
-    },
+
     {
       number: "2",
       depart: "15:00",
       arrive: "15:16",
       yeongnamnu: "15:23",
       note: "신도로",
+    },
+    {
+      number: "1",
+      depart: "15:28",
+      arrive: "15:44",
+      yeongnamnu: "15:51",
+      note: "",
     },
     {
       number: "1",
