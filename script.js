@@ -1,4 +1,5 @@
 import busdata from "./busdata.js";
+import { getDateType } from "./calendar.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const btn1 = document.getElementById("btn1");
@@ -10,33 +11,109 @@ document.addEventListener("DOMContentLoaded", function () {
   const secondTable = document.getElementById("second-timetable");
   const informText1 = document.getElementById("inform-text1");
   const informText2 = document.getElementById("inform-text2");
+  const headerText = document.querySelector(".header_text");
+  const navButtons = document.querySelectorAll(".nav__btn");
+  const timetableLink = document.getElementById("timetable-link");
+  const routeLink = document.getElementById("route-link");
+  const footerDate = document.getElementById("footer-date");
+
+  const weekdaysButton = navButtons[0];
+  const weekendButton = navButtons[1];
+  const vacationButton = navButtons[2];
+
+  let currentMode = "weekdays";
+
+  const links = {
+    weekdays: {
+      timetable:
+        "https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000076490&fileSn=1&fileName=BBS_202501060246536911&fileSn=1&docName=1",
+      route:
+        "https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000057458&fileSn=5&fileName=BBS_202309070216369885&fileSn=5&docName=bus-every-20230907",
+    },
+  };
+
+  links.weekend = {
+    timetable:
+      "https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000076490&fileSn=0&fileName=BBS_202501060246536840&fileSn=0&docName=2",
+    route:
+      "https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000057458&fileSn=0&fileName=BBS_202308210915280290&fileSn=0&docName=bus20230821-1",
+  };
+  links.vacation = links.weekend;
+
+  let cam2sta = busdata.weekdayscam2sta;
+  let sta2cam = busdata.weekdayssta2cam;
 
   // 데이터 에러
-  if (!busdata || !busdata.cam2sta || !busdata.sta2cam) {
+  if (!busdata || !busdata.weekdayscam2sta || !busdata.weekdayssta2cam) {
     if (informText1)
       informText1.innerText = "부산대 → 밀양역: 데이터를 불러오지 못했습니다.";
     if (informText2)
       informText2.innerText = "밀양역 → 부산대: 데이터를 불러오지 못했습니다.";
-    return; // 데이터가 없으면 더 이상 진행하지 않음
+    return;
   }
-
-  const cam2sta = busdata.cam2sta;
-  const sta2cam = busdata.sta2cam;
 
   let showallTable1 = false;
   let showallTable2 = false;
   let refreshTime = null;
   let minuteTime = null;
   let isRefreshing = false;
-  let refreshCount = 0; // 리프레시 횟ㅜ
+  let refreshCount = 0; // 리프레시 횟수
 
   allTable1.style.display = "none";
   allTable2.style.display = "none";
 
+  function updateLinks(mode) {
+    if (timetableLink && routeLink && links[mode]) {
+      timetableLink.href = links[mode].timetable;
+      routeLink.href = links[mode].route;
+    }
+  }
+
+  function formatTimeForDisplay(minutes) {
+    if (minutes < 60) {
+      return `${minutes}분`;
+    } else {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      if (remainingMinutes === 0) {
+        return `${hours}시간`;
+      } else {
+        return `${hours}시간 ${remainingMinutes}분`;
+      }
+    }
+  }
+
+  function autoDetectMode() {
+    const today = new Date();
+    const dateType = getDateType(today);
+    const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    const dayOfWeek = weekdayNames[today.getDay()];
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const dateString = `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
+
+    // 날짜 업데이트
+    if (footerDate) {
+      footerDate.textContent = dateString;
+    }
+
+    if (dateType === "vacation") {
+      setVacation();
+      headerText.textContent = `방학 - ${dateString}`;
+    } else if (dateType === "weekend") {
+      setWeekend();
+      headerText.textContent = `주말·공휴일 - ${dateString}`;
+    } else {
+      setWeekday();
+      headerText.textContent = `평일 - ${dateString}`;
+    }
+  }
+
   function busTables() {
     //버스 시간 함수
     const now = new Date(); // 현재 시간
-    const currentTime = now.getHours() * 60 + now.getMinutes(); // 시 -> 분
+    const currentTime = now.getHours() * 60 + now.getMinutes(); // 시 > 분
 
     const nextCam2sta = cam2sta.filter((bus) => {
       if (!bus.depart) return false;
@@ -98,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isRoute1) {
         // 부산대→밀양역
         row.innerHTML = `
-          <div class="bus-cell">${`${bus.number}번` || "-"}</div>
+          <div class="bus-cell">${bus.number ? `${bus.number}번` : "-"}</div>
           <div class="bus-cell">${bus.depart || "-"}</div>
           <div class="bus-cell">${bus.arrive || "-"}</div>
           <div class="bus-cell">${bus.yeongnamnu || "-"}</div>
@@ -107,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         // 밀양역→부산대
         row.innerHTML = `
-          <div class="bus-cell">${`${bus.number}번` || "-"}</div>
+          <div class="bus-cell">${bus.number ? `${bus.number}번` : "-"}</div>
           <div class="bus-cell">${bus.yeongnamnu || "-"}</div>
           <div class="bus-cell">${bus.depart || "-"}</div>
           <div class="bus-cell">${bus.arrive || "-"}</div>
@@ -135,12 +212,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let text = "";
         if (diffMinutes <= 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `부산대 → 밀양역: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 > 밀양역: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
         } else if (diffMinutes === 1 && currentSeconds > 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `부산대 → 밀양역: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 > 밀양역: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
         } else {
-          text = `부산대 → 밀양역: <span style="color: #103095;">${diffMinutes}분</span> 후 출발 (${firstBus.depart})`;
+          const formattedTime = formatTimeForDisplay(diffMinutes);
+          text = `부산대 > 밀양역: <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
         }
 
         if (nextBus) {
@@ -150,18 +228,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (nextDiffMinutes <= 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `, 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
           } else if (nextDiffMinutes === 1 && currentSeconds > 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `, 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
           } else {
-            text += `, 다음 버스 <span style="color: #103095;">${nextDiffMinutes}분</span> 후 (${nextBus.depart})`;
+            const formattedTime = formatTimeForDisplay(nextDiffMinutes);
+            text += `<br /> 다음 버스 <span style="color: #103095;">${formattedTime}</span> 후 (${nextBus.depart})`;
           }
         }
 
         informText1.innerHTML = text;
       } else {
-        informText1.innerText = "부산대 → 밀양역: 운행 예정 버스 없음.";
+        informText1.innerText = "부산대 > 밀양역: 운행 예정 버스 없음.";
       }
 
       // 밀양역 → 부산대 inform-text
@@ -176,12 +255,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let text = "";
         if (diffMinutes <= 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `밀양역 → 부산대: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 > 부산대: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
         } else if (diffMinutes === 1 && currentSeconds > 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `밀양역 → 부산대: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 > 부산대: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
         } else {
-          text = `밀양역 → 부산대: <span style="color: #103095;">${diffMinutes}분</span> 후 출발 (${firstBus.depart})`;
+          const formattedTime = formatTimeForDisplay(diffMinutes);
+          text = `밀양역 > 부산대: <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
         }
 
         if (nextBus) {
@@ -191,12 +271,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (nextDiffMinutes <= 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `, 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
           } else if (nextDiffMinutes === 1 && currentSeconds > 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `, 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
           } else {
-            text += `, 다음 버스 <span style="color: #103095;">${nextDiffMinutes}분</span> 후 (${nextBus.depart})`;
+            const formattedTime = formatTimeForDisplay(nextDiffMinutes);
+            text += `<br /> 다음 버스 <span style="color: #103095;">${formattedTime}</span> 후 (${nextBus.depart})`;
           }
         }
 
@@ -205,6 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
         informText2.innerText = "밀양역 → 부산대: 운행 예정 버스 없음.";
       }
     } catch (error) {
+      console.error("시간 업데이트 오류:", error);
       return;
     }
   }
@@ -233,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateCell();
       refreshCount += 1;
 
-      // 4번 자동 새로고침 -> 00초 새로고침
+      // 4번 자동 새로고침 > 00초 새로고침
       if (refreshCount >= 4) {
         stopFirstRefresh();
         zerosecRefresh();
@@ -285,9 +367,89 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  updateCell();
+  function setWeekday() {
+    currentMode = "weekdays";
+    cam2sta = busdata.weekdayscam2sta;
+    sta2cam = busdata.weekdayssta2cam;
+
+    weekdaysButton.classList.add("active");
+    weekendButton.classList.remove("active");
+    vacationButton.classList.remove("active");
+
+    updateLinks(currentMode);
+    updateCell();
+    resetTable();
+  }
+
+  function setWeekend() {
+    currentMode = "weekend";
+    cam2sta = busdata.weekendcam2sta;
+    sta2cam = busdata.weekendsta2cam;
+
+    weekdaysButton.classList.remove("active");
+    weekendButton.classList.add("active");
+    vacationButton.classList.remove("active");
+
+    updateLinks(currentMode);
+    updateCell();
+    resetTable();
+  }
+
+  function setVacation() {
+    currentMode = "vacation";
+    cam2sta = busdata.vacationcam2sta;
+    sta2cam = busdata.vacationsta2cam;
+
+    weekdaysButton.classList.remove("active");
+    weekendButton.classList.remove("active");
+    vacationButton.classList.add("active");
+
+    updateLinks(currentMode);
+    updateCell();
+    resetTable();
+  }
+
+  function resetTable() {
+    showallTable1 = false;
+    showallTable2 = false;
+    allTable1.style.display = "none";
+    allTable2.style.display = "none";
+    firstTable.style.display = "block";
+    secondTable.style.display = "block";
+    updateButtonText();
+  }
+
+  function checkDateChange() {
+    let lastDate = new Date().getDate();
+
+    // 날짜가 변경 확인
+    setInterval(() => {
+      const currentDate = new Date().getDate();
+      if (currentDate !== lastDate) {
+        lastDate = currentDate;
+        autoDetectMode();
+      }
+    }, 60000); // 1분마다 확인
+  }
+
+  function updateFooterText() {
+    if (footerDate) {
+      const today = new Date();
+      const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
+      const dayOfWeek = weekdayNames[today.getDay()];
+      const year = today.getFullYear();
+      const month = today.getMonth() + 1;
+      const date = today.getDate();
+      const dateString = `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
+      footerDate.textContent = dateString;
+    }
+  }
+
+  autoDetectMode();
   updateButtonText();
   autoRefresh();
+  checkDateChange();
+  updateFooterText();
 
   btn1.addEventListener("click", function () {
     showallTable1 = !showallTable1;
@@ -304,6 +466,48 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   refreshBtn.addEventListener("click", function () {
-    toggleRefresh(); // 새로고침 버튼 클릭시 리프레시 그만
+    toggleRefresh();
+  });
+
+  weekdaysButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    const today = new Date();
+    const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    const dayOfWeek = weekdayNames[today.getDay()];
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const dateString = `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
+
+    setWeekday();
+    headerText.textContent = `평일 - ${dateString}`;
+  });
+
+  weekendButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    const today = new Date();
+    const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    const dayOfWeek = weekdayNames[today.getDay()];
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const dateString = `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
+
+    setWeekend();
+    headerText.textContent = `주말·공휴일 - ${dateString}`;
+  });
+
+  vacationButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    const today = new Date();
+    const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    const dayOfWeek = weekdayNames[today.getDay()];
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const dateString = `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
+
+    setVacation();
+    headerText.textContent = `방학 - ${dateString}`;
   });
 });

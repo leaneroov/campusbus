@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Campus Bus System</title>
-    <link rel="icon" href="bus.png" type="image/png">
+    <title>Campus Bus</title>
+    <link rel="icon" href="bus.png" type="image/png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
       <header class="header">
-        <a href="index.html" class="header_text">MAIN</a>
+        <a href="index.html" class="header_text">평일</a>
         <span><i class="fa-solid fa-arrows-rotate" id="refresh-btn"></i> </span>
       </header>
       <!--header-->
@@ -36,7 +36,7 @@
       <!------------------------------------------------------->
       <div class="table-box">
         <div class="table">
-          <p class="table-title">부산대 밀양캠퍼스 → 밀양역</p>
+          <p class="table-title">부산대 밀양캠퍼스 > 밀양역</p>
           <div class="bus-table">
             <div class="bus-header">
               <div class="number">노선명</div>
@@ -57,7 +57,7 @@
       <!------------------------------------------------------->
       <div class="table-box">
         <div class="table">
-          <p class="table-title">밀양역 → 부산대 밀양캠퍼스</p>
+          <p class="table-title">밀양역 > 부산대 밀양캠퍼스</p>
 
           <div class="bus-table">
             <div class="bus-header">
@@ -77,16 +77,36 @@
       <!-- 2table -->
       <!------------------------------------------------------->
       <nav class="nav">
-          <button class="nav__btn">
-            <a class="nav__link" href="#">평일</a>
-          <button class="nav__btn">
-            <a class="nav__link" href="#">휴일 및 방학</a>
-          <button class="nav__btn">
-            <a class="nav__link" href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000076490&fileSn=1&fileName=BBS_202501060246536911&fileSn=1&docName=1"
-            >버스시간표</a>
-            <button class="nav__btn">
-              <a class="nav__link" href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000057458&fileSn=5&fileName=BBS_202309070216369885&fileSn=5&docName=bus-every-20230907">노선표</a>
-          </nav>
+        <button class="nav__btn active">
+          <a class="nav__link" href="#">평일</a>
+        </button>
+        <button class="nav__btn">
+          <a class="nav__link" href="#">주말·공휴일</a>
+        </button>
+        <button class="nav__btn">
+          <a class="nav__link" href="#">방학</a>
+        </button>
+        <button class="nav__btn">
+          <a class="nav__link" id="timetable-link" href="#">버스시간표</a>
+        </button>
+        <button class="nav__btn">
+          <a class="nav__link" id="route-link" href="#">노선표</a>
+        </button>
+      </nav>
+      <footer>
+        <p id="footer-text">
+          <span id="footer-date" class="footer-data"></span>
+          <br /><span class="footer-text"
+            >시간표 데이터는 실제 운행 시간과 차이가 있을 수 있음</span
+          >
+          <br />2025년 3월 기준, 공휴일은 변경될 수 있음 <br />1학기 방학: 6/23
+          ~ | 2학기 학사일정 미확정(9/1 개강 예상) <br /><a
+            href="mailto:bsiltogold@gmail.com"
+            class="footer-email"
+            >bsiltogold@gmail.com</a
+          >
+        </p>
+      </footer>
     </div>
     <!-- 컨테이너 끝 -->
     <script
@@ -95,5 +115,6 @@
     ></script>
     <script type="module" src="script.js"></script>
     <script type="module" src="busdata.js"></script>
+    <script type="module" src="calendar.js"></script>
   </body>
 </html>
