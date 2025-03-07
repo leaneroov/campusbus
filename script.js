@@ -262,6 +262,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Add missing iszerosec function
+  function iszerosec(callback, delay) {
+    setTimeout(callback, delay);
+  }
+
   // 00초 마다 새로고침
   function zerosecRefresh() {
     const now = new Date();
