@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Miryang Campus Bus System</title>
+    <title>Campus Bus System</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -14,42 +14,14 @@
       </header>
       <!--header-->
       <!------------------------------------------------------->
-      <div class="navbar-container">
-        <nav class="nav-bar">
-          <ul class="nav-list">
-            <li class="nav-item active">
-              <a href="#" class="nav-link">MAIN</a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000076490&fileSn=1&fileName=BBS_202501060246536911&fileSn=1&docName=1"
-                class="nav-link"
-                >버스시간표</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000057458&fileSn=5&fileName=BBS_202309070216369885&fileSn=5&docName=bus-every-20230907"
-                class="nav-link"
-                >노선표</a
-              >
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <!--nav-->
-      <!------------------------------------------------------->
+
       <div class="inform">
         <div class="inform-box">
-          <p class="inform-text">
-            This is a beta version. Updates coming soon.
-          </p>
+          <p class="inform-text" id="inform-text1">text</p>
         </div>
         <!--1inform-->
         <div class="inform-box">
-          <p class="inform-text">
-            C → Miryang Sta: soon depart at nn:nn PM, next nn:nn PM
-          </p>
+          <p class="inform-text" id="inform-text2">text</p>
         </div>
         <!--2inform-->
         <!-- <div class="inform-box">
@@ -103,6 +75,17 @@
       </div>
       <!-- 2table -->
       <!------------------------------------------------------->
+      <nav class="nav">
+          <button class="nav__btn">
+            <a class="nav__link" href="#">평일</a>
+          <button class="nav__btn">
+            <a class="nav__link" href="#">휴일 및 방학</a>
+          <button class="nav__btn">
+            <a class="nav__link" href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000076490&fileSn=1&fileName=BBS_202501060246536911&fileSn=1&docName=1"
+            >버스시간표</a>
+            <button class="nav__btn">
+              <a class="nav__link" href="https://www.miryang.go.kr/docviewer/index.jsp?atchFileId=FILE_000000000057458&fileSn=5&fileName=BBS_202309070216369885&fileSn=5&docName=bus-every-20230907">노선표</a>
+          </nav>
     </div>
     <!-- 컨테이너 끝 -->
     <script
