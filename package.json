@@ -1,0 +1,28 @@
+{
+  "name": "campusbus",
+  "version": "1.0.0",
+  "description": "Campus bus timetable app",
+  "main": "script.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leaneroov/campusbus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leaneroov/campusbus/issues"
+  },
+  "homepage": "https://github.com/leaneroov/campusbus#readme",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^3.3.3",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
+  }
+}

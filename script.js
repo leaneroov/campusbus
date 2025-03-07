@@ -1,3 +1,6 @@
+import "./style.css";
+import "./reset.css";
+
 import busdata from "./busdata.js";
 import { getDateType } from "./calendar.js";
 
