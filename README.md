@@ -1,4 +1,4 @@
-# 대학교 캠퍼스 시내버스 안내
+# 시내버스 시간표 뷰어
 
 ## 주요 기능
 
@@ -6,9 +6,9 @@
 - **실시간 필터링**: 현재 시간 이후의 운행 예정 버스만 필터링하여 표시
 
 <p align="center">
-  <img src="v.JPG" width="30%" />
-  <img src="ww.JPG" width="30%" />
-  <img src="www.JPG" width="30%" />
+  <img src="./src/img/weekdays.jpeg" width="33%" />
+  <img src="./src/img/weekend.jpeg" width="33%" />
+  <img src="./src/img/vacation.jpeg" width="33%" />
 </p>
 
 ## 버전 정보
@@ -42,8 +42,3 @@
 - 양방향 버스 시간표 구현
 - 시간표 간략/전체 보기 기능 추가
 - 실시간 버스 정보 표시 기능 구현
-
-## TODO (향후 업데이트)
-
-- **표 고정**
-- **코드 간소화**

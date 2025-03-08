@@ -1,5 +1,5 @@
-import "./style.css";
-import "./reset.css";
+import "../css/reset.css";
+import "../css/style.css";
 
 import busdata from "./busdata.js";
 import { getDateType } from "./calendar.js";
@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let cam2sta = busdata.weekdayscam2sta;
   let sta2cam = busdata.weekdayssta2cam;
 
-  // 데이터 에러
   if (!busdata || !busdata.weekdayscam2sta || !busdata.weekdayssta2cam) {
     if (informText1)
       informText1.innerText = "부산대 → 밀양역: 데이터를 불러오지 못했습니다.";
@@ -59,8 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let showallTable2 = false;
   let refreshTime = null;
   let minuteTime = null;
+  let oneSecondRefreshTime = null;
   let isRefreshing = false;
-  let refreshCount = 0; // 리프레시 횟수
+  let refreshCount = 0;
 
   allTable1.style.display = "none";
   allTable2.style.display = "none";
@@ -96,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const date = today.getDate();
     const dateString = `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
 
-    // 날짜 업데이트
     if (footerDate) {
       footerDate.textContent = dateString;
     }
@@ -114,9 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function busTables() {
-    //버스 시간 함수
-    const now = new Date(); // 현재 시간
-    const currentTime = now.getHours() * 60 + now.getMinutes(); // 시 > 분
+    const now = new Date();
+    const currentTime = now.getHours() * 60 + now.getMinutes();
 
     const nextCam2sta = cam2sta.filter((bus) => {
       if (!bus.depart) return false;
@@ -149,11 +147,10 @@ document.addEventListener("DOMContentLoaded", function () {
     table.innerHTML = "";
 
     if (data.length === 0) {
-      table.innerHTML = `<div class="bus-row"><div class="bus-cell" style="grid-column: 1 / span 5; text-align: center;">운행 예정 버스 없음.</div></div>`;
+      table.innerHTML = `<div class="bus-row"><div class="bus-cell" style="grid-column: 1 / span 5; text-align: center;">금일 운행 예정 버스 없음.</div></div>`;
       return;
     }
 
-    // 제일 빠른 3개만 표시
     const topItems = data.slice(0, 3);
     appendBusRows(topItems, table, isRoute1);
   }
@@ -176,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
       row.classList.add("bus-row");
 
       if (isRoute1) {
-        // 부산대→밀양역
         row.innerHTML = `
           <div class="bus-cell">${bus.number ? `${bus.number}번` : "-"}</div>
           <div class="bus-cell">${bus.depart || "-"}</div>
@@ -185,7 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="bus-cell">${bus.note || ""}</div>
         `;
       } else {
-        // 밀양역→부산대
         row.innerHTML = `
           <div class="bus-cell">${bus.number ? `${bus.number}번` : "-"}</div>
           <div class="bus-cell">${bus.yeongnamnu || "-"}</div>
@@ -203,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const now = new Date();
       const currentSeconds = now.getSeconds();
+      let busImminent = false;
 
       if (route1Data.length > 0) {
         const firstBus = route1Data[0];
@@ -215,13 +211,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let text = "";
         if (diffMinutes <= 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `부산대 > 밀양역: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          busImminent = true;
         } else if (diffMinutes === 1 && currentSeconds > 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `부산대 > 밀양역: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          busImminent = true;
         } else {
           const formattedTime = formatTimeForDisplay(diffMinutes);
-          text = `부산대 > 밀양역: <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
         }
 
         if (nextBus) {
@@ -232,9 +230,11 @@ document.addEventListener("DOMContentLoaded", function () {
           if (nextDiffMinutes <= 0) {
             const remainingSeconds = 60 - currentSeconds;
             text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            busImminent = true;
           } else if (nextDiffMinutes === 1 && currentSeconds > 0) {
             const remainingSeconds = 60 - currentSeconds;
             text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            busImminent = true;
           } else {
             const formattedTime = formatTimeForDisplay(nextDiffMinutes);
             text += `<br /> 다음 버스 <span style="color: #103095;">${formattedTime}</span> 후 (${nextBus.depart})`;
@@ -243,10 +243,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         informText1.innerHTML = text;
       } else {
-        informText1.innerText = "부산대 > 밀양역: 운행 예정 버스 없음.";
+        informText1.innerHTML =
+          '부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 금일 운행 예정 버스 없음.';
       }
 
-      // 밀양역 → 부산대 inform-text
       if (route2Data.length > 0) {
         const firstBus = route2Data[0];
         const nextBus = route2Data.length > 1 ? route2Data[1] : null;
@@ -258,13 +258,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let text = "";
         if (diffMinutes <= 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `밀양역 > 부산대: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          busImminent = true;
         } else if (diffMinutes === 1 && currentSeconds > 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `밀양역 > 부산대: <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          busImminent = true;
         } else {
           const formattedTime = formatTimeForDisplay(diffMinutes);
-          text = `밀양역 > 부산대: <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
         }
 
         if (nextBus) {
@@ -275,9 +277,11 @@ document.addEventListener("DOMContentLoaded", function () {
           if (nextDiffMinutes <= 0) {
             const remainingSeconds = 60 - currentSeconds;
             text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            busImminent = true;
           } else if (nextDiffMinutes === 1 && currentSeconds > 0) {
             const remainingSeconds = 60 - currentSeconds;
             text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            busImminent = true;
           } else {
             const formattedTime = formatTimeForDisplay(nextDiffMinutes);
             text += `<br /> 다음 버스 <span style="color: #103095;">${formattedTime}</span> 후 (${nextBus.depart})`;
@@ -286,11 +290,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
         informText2.innerHTML = text;
       } else {
-        informText2.innerText = "밀양역 → 부산대: 운행 예정 버스 없음.";
+        informText2.innerHTML = `밀양역 <i class="fa-solid fa-arrow-right"></i> 금일 부산대 운행 예정 버스 없음.`;
+      }
+
+      if (busImminent) {
+        enableOneSecondRefresh();
+      } else {
+        disableOneSecondRefresh();
       }
     } catch (error) {
       console.error("시간 업데이트 오류:", error);
       return;
+    }
+  }
+
+  function enableOneSecondRefresh() {
+    if (oneSecondRefreshTime) return;
+
+    stopFirstRefresh();
+    if (minuteTime) {
+      clearInterval(minuteTime);
+      minuteTime = null;
+    }
+
+    oneSecondRefreshTime = setInterval(() => {
+      updateCell();
+    }, 1000);
+  }
+
+  function disableOneSecondRefresh() {
+    if (!oneSecondRefreshTime) return;
+
+    clearInterval(oneSecondRefreshTime);
+    oneSecondRefreshTime = null;
+
+    if (isRefreshing && !refreshTime && !minuteTime) {
+      const now = new Date();
+      const seconds = now.getSeconds();
+
+      if (seconds < 55) {
+        refreshTime = setInterval(() => {
+          updateCell();
+          refreshCount += 1;
+
+          if (refreshCount >= 4) {
+            stopFirstRefresh();
+            zerosecRefresh();
+          }
+        }, 5000);
+      } else {
+        zerosecRefresh();
+      }
     }
   }
 
@@ -318,12 +368,11 @@ document.addEventListener("DOMContentLoaded", function () {
       updateCell();
       refreshCount += 1;
 
-      // 4번 자동 새로고침 > 00초 새로고침
       if (refreshCount >= 4) {
         stopFirstRefresh();
         zerosecRefresh();
       }
-    }, 5000); //5초
+    }, 5000);
   }
 
   function stopFirstRefresh() {
@@ -345,10 +394,9 @@ document.addEventListener("DOMContentLoaded", function () {
     iszerosec(() => {
       updateCell();
 
-      // 그 후 1분 마다 리프레시
       minuteTime = setInterval(() => {
         updateCell();
-      }, 60000); //
+      }, 60000);
     }, millisToNextMinute);
   }
 
@@ -357,6 +405,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (minuteTime) {
       clearInterval(minuteTime);
       minuteTime = null;
+    }
+    if (oneSecondRefreshTime) {
+      clearInterval(oneSecondRefreshTime);
+      oneSecondRefreshTime = null;
     }
     refreshBtn.classList.remove("rotating");
     isRefreshing = false;
@@ -425,14 +477,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function checkDateChange() {
     let lastDate = new Date().getDate();
 
-    // 날짜가 변경 확인
     setInterval(() => {
       const currentDate = new Date().getDate();
       if (currentDate !== lastDate) {
         lastDate = currentDate;
         autoDetectMode();
       }
-    }, 60000); // 1분마다 확인
+    }, 60000);
   }
 
   function updateFooterText() {
@@ -513,4 +564,25 @@ document.addEventListener("DOMContentLoaded", function () {
     setVacation();
     headerText.textContent = `방학 - ${dateString}`;
   });
+
+  function privateEmail() {
+    const emailElement = document.querySelector(".footer-email");
+    if (!emailElement) return;
+
+    const parts = {
+      front: atob("aW1wbGFudC5zdGFmZmVyNzQ="),
+    };
+
+    const fullEmail = `contact: ${parts.front}@icloud.com`;
+    emailElement.textContent = fullEmail;
+    emailElement.removeAttribute("href");
+
+    emailElement.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.href = `mailto:${fullEmail}`;
+    });
+
+    emailElement.style.cursor = "pointer";
+  }
+  privateEmail();
 });

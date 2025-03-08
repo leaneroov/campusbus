@@ -2,20 +2,33 @@ const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const JavaScriptObfuscator = require("webpack-obfuscator");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "production",
-  entry: "./script.js",
+  entry: "./src/js/script.js",
   output: {
     filename: "bundle.[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    publicPath: "./", // 상대 경로로 변경
+    assetModuleFilename: "assets/[hash][ext][query]",
   },
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              sourceMap: true,
+            },
+          },
+        ],
       },
       {
         test: /\.js$/,
@@ -27,6 +40,16 @@ module.exports = {
             plugins: ["@babel/plugin-transform-runtime"],
           },
         },
+      },
+      // 이미지 파일 처리를 위한 규칙 추가
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
+        type: "asset/resource",
+      },
+      // 폰트 파일 처리를 위한 규칙 추가
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
       },
     ],
   },
@@ -43,7 +66,23 @@ module.exports = {
         minifyJS: true,
         minifyCSS: true,
         minifyURLs: true,
+        processConditionalComments: true,
+        removeRedundantAttributes: true,
+        removeEmptyAttributes: true,
+        keepClosingSlash: true,
+        scrambleJsContents: true,
       },
+      inject: true,
+    }),
+    new MiniCssExtractPlugin({
+      filename: "styles.[contenthash].css",
+      chunkFilename: "[id].[contenthash].css",
+    }),
+    new JavaScriptObfuscator({
+      rotateStringArray: true,
+      stringArray: true,
+      stringArrayEncoding: ["base64"],
+      identifierNamesGenerator: "hexadecimal",
     }),
   ],
   optimization: {

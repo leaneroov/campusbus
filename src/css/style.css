@@ -1,4 +1,4 @@
-@import "./reset.css";
+@import "../css/style.css";
 
 @keyframes rotate {
   from {
@@ -141,15 +141,41 @@ a {
 }
 
 .table-title {
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #103095;
-  margin: 0 0 1rem 0;
-  font-size: clamp(1.3rem, 2.5vw, 1rem);
+  font-weight: bold;
+  position: relative;
+  justify-content: space-between;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding-top: 2%;
+  padding-bottom: 4%;
+}
+
+.table-title .start,
+.table-title .end,
+.arrow {
+  font-size: 1.1rem;
+}
+
+.table-title .start,
+.table-title .end {
+  text-align: center;
+  width: 100%;
+}
+
+.table-title .arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bus-table {
   display: flex;
   flex-direction: column;
+  width: 10%;
   width: 100%;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -159,7 +185,6 @@ a {
 .bus-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  background-color: #ffffff;
 }
 
 .bus-header {
