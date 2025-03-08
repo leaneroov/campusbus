@@ -1,6 +1,7 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   mode: "production",
@@ -16,6 +17,17 @@ module.exports = {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+            plugins: ["@babel/plugin-transform-runtime"],
+          },
+        },
+      },
     ],
   },
   plugins: [
@@ -25,6 +37,12 @@ module.exports = {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
       },
     }),
   ],
@@ -39,10 +57,23 @@ module.exports = {
           },
           compress: {
             drop_console: true,
+            drop_debugger: true,
+            pure_funcs: ["console.log", "console.info", "console.debug"],
           },
-          mangle: true,
+          mangle: {
+            reserved: [],
+            properties: {
+              regex: /^_/,
+            },
+          },
+          toplevel: true,
         },
       }),
+      new CssMinimizerPlugin(),
     ],
+    splitChunks: {
+      chunks: "all",
+      minSize: 0,
+    },
   },
 };

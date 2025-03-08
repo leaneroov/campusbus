@@ -1,6 +1,6 @@
 {
   "name": "campusbus",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "description": "Campus bus timetable app",
   "main": "script.js",
   "scripts": {
@@ -18,7 +18,12 @@
   },
   "homepage": "https://github.com/leaneroov/campusbus#readme",
   "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/plugin-transform-runtime": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^10.0.0",
     "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^7.0.2",
     "html-webpack-plugin": "^5.5.3",
     "style-loader": "^3.3.3",
     "terser-webpack-plugin": "^5.3.14",
