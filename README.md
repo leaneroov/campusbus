@@ -6,9 +6,9 @@
 - **실시간 필터링**: 현재 시간 이후의 운행 예정 버스만 필터링하여 표시
 
 <p align="center">
-  <img src="./src/img/weekdays.jpeg" width="30%" />
-  <img src="./src/img/weekend.jpeg" width="30%" />
-  <img src="./src/img/vacation.jpeg" width="30%" />
+  <img src="./src/img/weekdays.jpeg" width="33%" />
+  <img src="./src/img/weekend.jpeg" width="33%" />
+  <img src="./src/img/vacation.jpeg" width="33%" />
 </p>
 
 ## 버전 정보
