@@ -19,10 +19,36 @@ document.addEventListener("DOMContentLoaded", function () {
   const timetableLink = document.getElementById("timetable-link");
   const routeLink = document.getElementById("route-link");
   const footerDate = document.getElementById("footer-date");
+  const darkModeBtn = document.getElementById("dark-mode-btn");
+  const body = document.body;
 
   const weekdaysButton = navButtons[0];
   const weekendButton = navButtons[1];
   const vacationButton = navButtons[2];
+
+  const darkMode = localStorage.getItem("darkMode");
+
+  // Apply dark mode if previously enabled
+  if (darkMode === "enabled") {
+    body.classList.add("dark-mode");
+    darkModeBtn.classList.remove("fa-moon");
+    darkModeBtn.classList.add("fa-sun");
+  }
+
+  // Toggle dark mode on button click
+  darkModeBtn.addEventListener("click", function () {
+    if (body.classList.contains("dark-mode")) {
+      body.classList.remove("dark-mode");
+      localStorage.setItem("darkMode", "disabled");
+      darkModeBtn.classList.remove("fa-sun");
+      darkModeBtn.classList.add("fa-moon");
+    } else {
+      body.classList.add("dark-mode");
+      localStorage.setItem("darkMode", "enabled");
+      darkModeBtn.classList.remove("fa-moon");
+      darkModeBtn.classList.add("fa-sun");
+    }
+  });
 
   let currentMode = "weekdays";
 
@@ -211,15 +237,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let text = "";
         if (diffMinutes <= 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span class="time-highlight">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
           busImminent = true;
         } else if (diffMinutes === 1 && currentSeconds > 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span class="time-highlight">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
           busImminent = true;
         } else {
           const formattedTime = formatTimeForDisplay(diffMinutes);
-          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
+          text = `부산대 <i class="fa-solid fa-arrow-right"></i> 밀양역 <span class="time-highlight">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
         }
 
         if (nextBus) {
@@ -229,15 +255,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (nextDiffMinutes <= 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span class="time-highlight">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
             busImminent = true;
           } else if (nextDiffMinutes === 1 && currentSeconds > 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span class="time-highlight">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
             busImminent = true;
           } else {
             const formattedTime = formatTimeForDisplay(nextDiffMinutes);
-            text += `<br /> 다음 버스 <span style="color: #103095;">${formattedTime}</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span class="time-highlight">${formattedTime}</span> 후 (${nextBus.depart})`;
           }
         }
 
@@ -258,15 +284,15 @@ document.addEventListener("DOMContentLoaded", function () {
         let text = "";
         if (diffMinutes <= 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span class="time-highlight">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
           busImminent = true;
         } else if (diffMinutes === 1 && currentSeconds > 0) {
           const remainingSeconds = 60 - currentSeconds;
-          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span style="color: #103095;">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span class="time-highlight">${remainingSeconds}초</span> 후 출발 (${firstBus.depart})`;
           busImminent = true;
         } else {
           const formattedTime = formatTimeForDisplay(diffMinutes);
-          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span style="color: #103095;">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
+          text = `밀양역 <i class="fa-solid fa-arrow-right"></i> 부산대 <span class="time-highlight">${formattedTime}</span> 후 출발 (${firstBus.depart})`;
         }
 
         if (nextBus) {
@@ -276,15 +302,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (nextDiffMinutes <= 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span class="time-highlight">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
             busImminent = true;
           } else if (nextDiffMinutes === 1 && currentSeconds > 0) {
             const remainingSeconds = 60 - currentSeconds;
-            text += `<br /> 다음 버스 <span style="color: #103095;">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span class="time-highlight">${remainingSeconds}초</span> 후 (${nextBus.depart})`;
             busImminent = true;
           } else {
             const formattedTime = formatTimeForDisplay(nextDiffMinutes);
-            text += `<br /> 다음 버스 <span style="color: #103095;">${formattedTime}</span> 후 (${nextBus.depart})`;
+            text += `<br /> 다음 버스 <span class="time-highlight">${formattedTime}</span> 후 (${nextBus.depart})`;
           }
         }
 
@@ -303,7 +329,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
   }
-
   function enableOneSecondRefresh() {
     if (oneSecondRefreshTime) return;
 
@@ -573,7 +598,7 @@ document.addEventListener("DOMContentLoaded", function () {
       front: atob("aW1wbGFudC5zdGFmZmVyNzQ="),
     };
 
-    const fullEmail = `contact: ${parts.front}@icloud.com`;
+    const fullEmail = `Website Developer Contact: ${parts.front}@icloud.com`;
     emailElement.textContent = fullEmail;
     emailElement.removeAttribute("href");
 

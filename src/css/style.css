@@ -1,5 +1,3 @@
-@import "../css/style.css";
-
 @keyframes rotate {
   from {
     transform: rotate(0deg);
@@ -25,7 +23,7 @@ a {
   width: 100%;
   background-color: white;
   min-height: 100vh;
-  padding-bottom: 2rem;
+  padding-bottom: 4rem;
 }
 
 @media (min-width: 480px) {
@@ -49,11 +47,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1rem;
   background: #103095;
   box-sizing: border-box;
-  height: 2.8rem;
-  z-index: 100;
+  height: 3.15rem;
+  border-bottom: 0.1rem solid black;
 }
 
 .header-left,
@@ -75,7 +73,8 @@ a {
   flex-grow: 1;
 }
 
-#refresh-btn {
+#refresh-btn,
+#dark-mode-btn {
   border: 0;
   font-size: clamp(1.35rem, 3vw, 1.2rem);
   color: white;
@@ -90,25 +89,26 @@ a {
 #refresh-btn.rotating {
   animation: rotate 2s linear infinite;
 }
+
 .inform {
-  padding-top: 3rem;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 3.7rem;
 }
 
 .inform-box {
   width: 95%;
   padding: 0.6rem 0.3rem;
   border-radius: 0.5rem;
-  background: #ffffff;
+  background: white;
   box-sizing: border-box;
   border: 0.15rem solid #103095;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0.5rem auto;
+  margin-bottom: 0.5rem;
 }
 
 .inform-text {
@@ -124,7 +124,7 @@ a {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 1rem 0;
+  margin-top: 0.26rem;
 }
 
 .table {
@@ -133,11 +133,11 @@ a {
   align-items: center;
   width: 95%;
   border-radius: 0.5rem;
-  background: #ffffff;
+  background: white;
   box-sizing: border-box;
   border: 0.15rem solid #103095;
   padding: 1rem 0.5rem;
-  margin: 0 auto;
+  margin: 0.5rem auto;
 }
 
 .table-title {
@@ -146,7 +146,6 @@ a {
   justify-content: center;
   color: #103095;
   font-weight: bold;
-  position: relative;
   justify-content: space-between;
   text-overflow: ellipsis;
   width: 100%;
@@ -175,7 +174,6 @@ a {
 .bus-table {
   display: flex;
   flex-direction: column;
-  width: 10%;
   width: 100%;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -287,8 +285,8 @@ a {
 footer {
   width: 100%;
   max-width: 480px;
-  padding: 1rem;
-  margin-top: 0.3rem;
+  padding: 0rem;
+  margin-top: 2.5rem;
   background-color: white;
   border-top: 0.15rem solid #103095;
   box-sizing: border-box;
@@ -309,4 +307,75 @@ footer {
   color: #777;
   text-align: center;
   padding: 0 1rem;
+}
+
+.dark-mode {
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
+}
+
+.dark-mode .container {
+  background-color: #181a1b;
+}
+
+.dark-mode .header {
+  background: #103095;
+  border-bottom: 0.15rem solid white;
+}
+
+.dark-mode .inform-box,
+.dark-mode .table {
+  background: #1e1e1e;
+  border-color: #1e2761;
+  border: 0.15rem solid white;
+}
+
+.dark-mode .inform-text,
+.dark-mode .bus-cell {
+  color: white;
+}
+
+.dark-mode .table-title {
+  color: white;
+}
+
+.dark-mode .footer-text {
+  color: white;
+}
+
+.dark-mode #footer-text {
+  color: #aaaaaa;
+}
+
+.dark-mode .footer-data {
+  color: white;
+}
+
+.dark-mode .nav {
+  background-color: #1e2761;
+  border-top: 0.1rem solid white;
+}
+
+.dark-mode .nav__btn {
+  background-color: #1e2761;
+}
+
+.dark-mode .nav__btn.active {
+  background-color: #142b42;
+}
+
+.dark-mode .nav__btn.active .nav__link {
+  color: white;
+}
+.dark-mode footer {
+  background-color: #181a1b;
+  border-top: 0.15rem solid white;
+}
+
+.time-highlight {
+  color: #103095;
+}
+
+.dark-mode .time-highlight {
+  color: #18a0fb;
 }

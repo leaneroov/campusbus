@@ -56,6 +56,18 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
+      favicon: "./logo.png",
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        minifyJS: true,
+        minifyCSS: true,
+      },
+      inject: true,
+    }),
+    new HtmlWebpackPlugin({
+      template: "./index.html",
       minify: {
         removeComments: true,
         collapseWhitespace: true,
