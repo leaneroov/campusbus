@@ -61,17 +61,6 @@ module.exports = {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true,
-        minifyJS: true,
-        minifyCSS: true,
-      },
-      inject: true,
-    }),
-    new HtmlWebpackPlugin({
-      template: "./index.html",
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true,
