@@ -1,41 +1,52 @@
-import "../css/reset.css";
-import "../css/style.css";
+import "../css/base/reset.css";
+import "../css/base/global.css";
+import "../css/base/variables.css";
+import "../css/components/header.css";
+import "../css/components/inform.css";
+import "../css/components/table.css";
+import "../css/components/buttons.css";
+import "../css/components/navigation.css";
+import "../css/components/footer.css";
+import "../css/utils/darkmode.css";
+import "../css/utils/animations.css";
 
+import "../css/main.css";
 import busdata from "./busdata.js";
 import { getDateType } from "./calendar.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-  const btn1 = document.getElementById("btn1");
-  const btn2 = document.getElementById("btn2");
-  const refreshBtn = document.getElementById("refresh-btn");
-  const allTable1 = document.getElementById("all-timetable1");
-  const allTable2 = document.getElementById("all-timetable2");
-  const firstTable = document.getElementById("first-timetable");
-  const secondTable = document.getElementById("second-timetable");
-  const informText1 = document.getElementById("inform-text1");
-  const informText2 = document.getElementById("inform-text2");
-  const headerText = document.querySelector(".header_text");
-  const navButtons = document.querySelectorAll(".nav__btn");
-  const timetableLink = document.getElementById("timetable-link");
-  const routeLink = document.getElementById("route-link");
-  const footerDate = document.getElementById("footer-date");
-  const darkModeBtn = document.getElementById("dark-mode-btn");
   const body = document.body;
-
-  const weekdaysButton = navButtons[0];
-  const weekendButton = navButtons[1];
-  const vacationButton = navButtons[2];
-
   const darkMode = localStorage.getItem("darkMode");
 
-  // Apply dark mode if previously enabled
+  const headerText = document.querySelector(".header_text");
+  const darkModeBtn = document.querySelector(".header__icon__dark");
+  const refreshBtn = document.querySelector(".header__icon__ref");
+
+  const informText1 = document.querySelector(".info-text--primary");
+  const informText2 = document.querySelector(".info-text--secondary");
+
+  const firstTable = document.querySelector(".timetable__preview--primary");
+  const allTable1 = document.querySelector(".timetable__all--primary");
+  const btn1 = document.querySelector(".timetable__toggle--primary");
+
+  const secondTable = document.querySelector(".timetable__preview--secondary");
+  const allTable2 = document.querySelector(".timetable__all--secondary");
+  const btn2 = document.querySelector(".timetable__toggle--secondary");
+
+  const timetableLink = document.querySelector(".nav__menu__btn--schedule");
+  const routeLink = document.querySelector(".nav__menu__btn--route");
+  const footerDate = document.querySelector(".footer__text__date");
+
+  const weekdaysButton = document.querySelector(".nav__menu__btn--weekdays");
+  const weekendButton = document.querySelector(".nav__menu__btn--weekend");
+  const vacationButton = document.querySelector(".nav__menu__btn--vacation");
+
   if (darkMode === "enabled") {
     body.classList.add("dark-mode");
     darkModeBtn.classList.remove("fa-moon");
     darkModeBtn.classList.add("fa-sun");
   }
 
-  // Toggle dark mode on button click
   darkModeBtn.addEventListener("click", function () {
     if (body.classList.contains("dark-mode")) {
       body.classList.remove("dark-mode");
@@ -93,8 +104,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateLinks(mode) {
     if (timetableLink && routeLink && links[mode]) {
-      timetableLink.href = links[mode].timetable;
-      routeLink.href = links[mode].route;
+      // Update the button links instead of directly navigating
+      timetableLink.onclick = function () {
+        window.location.href = links[mode].timetable;
+      };
+
+      routeLink.onclick = function () {
+        window.location.href = links[mode].route;
+      };
     }
   }
 
@@ -598,7 +615,7 @@ document.addEventListener("DOMContentLoaded", function () {
       front: atob("aW1wbGFudC5zdGFmZmVyNzQ="),
     };
 
-    const fullEmail = `Website Developer Contact: ${parts.front}@icloud.com`;
+    const fullEmail = `${parts.front}@icloud.com`;
     emailElement.textContent = fullEmail;
     emailElement.removeAttribute("href");
 

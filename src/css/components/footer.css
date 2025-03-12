@@ -1,0 +1,28 @@
+footer {
+  width: 100%;
+  max-width: 480px;
+  padding: 0rem;
+  margin-top: 2.5rem;
+  background-color: var(--white);
+  border-top: var(--border-width) solid var(--primary-color);
+  box-sizing: border-box;
+  text-align: center;
+  padding: 1.45rem 0px 0.99999rem;
+}
+
+.footer__text__date {
+  color: var(--secondary-color);
+}
+
+.footer__text {
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  color: var(--gray-dark);
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.footer__text--import {
+  color: var(--black);
+  font-weight: bold;
+}

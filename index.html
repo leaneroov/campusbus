@@ -10,118 +10,140 @@
     <meta name="author" content="" />
     <title>TicTac</title>
   </head>
+
   <body>
     <div class="container">
-      <header class="header">
-        <span><i class="fa-solid fa-moon" id="dark-mode-btn"></i></span>
-        <a href="index.html" class="header_text">평일</a>
-        <span><i class="fa-solid fa-arrows-rotate" id="refresh-btn"></i> </span>
+      <header>
+        <i class="header__icon header__icon__dark fa-solid fa-moon"></i>
+        <a href="index.html" class="header_text">js data</a>
+        <i class="header__icon header__icon__ref fa-solid fa-arrows-rotate"></i>
       </header>
-      <!--header-->
-      <!------------------------------------------------------->
 
-      <div class="inform">
-        <div class="inform-box">
-          <p class="inform-text" id="inform-text1"></p>
+      <div class="info">
+        <div class="info__box">
+          <p class="info__text info-text--primary">js data</p>
         </div>
-        <!--1inform-->
-        <div class="inform-box">
-          <p class="inform-text" id="inform-text2"></p>
+        <div class="info__box">
+          <p class="info__text info-text--secondary">js data</p>
         </div>
-        <!--2inform-->
-        <!-- <div class="inform-box">
-          <p class="inform-text">
-            부산대 → 밀양역: 출발버스 2시 20분, 다음 버스 4시 20분
-          </p>
-        </div> -->
-        <!--3infrom-->
       </div>
-      <!--inform-->
-      <!------------------------------------------------------->
-      <div class="table-box">
-        <div class="table">
-          <div class="table-title">
-            <div class="end">부산대 밀양캠퍼스</div>
-            <div class="arrow">
-              <i class="fa-solid fa-arrow-right fa-lg"></i>
-            </div>
-            <div class="start">밀양역</div>
+
+      <div class="timetable">
+        <div class="timetable__container">
+          <div class="timetable__title">
+            <span class="timetable__point">const data</span>
+            <i class="timetable__arrow fa-solid fa-arrow-right fag-lg"></i>
+            <span class="timetable__point">const data</span>
           </div>
-          <div class="bus-table">
-            <div class="bus-header">
-              <div class="number">노선명</div>
-              <div class="depart">부산대</div>
-              <div class="arrive">밀양역</div>
-              <div class="yeongnamnu">영남루</div>
-              <div class="note">비고</div>
+          <div class="timetable__content">
+            <div class="timetable__header">
+              <span>text</span>
+              <span>text</span>
+              <span>text</span>
+              <span>text</span>
+              <span>text</span>
             </div>
             <!-- 기본 테이블 (최대 3개 항목) -->
-            <div id="first-timetable"></div>
+            <div class="timetable__preview timetable__preview--primary"></div>
 
-            <div id="all-timetable1" style="display: none"></div>
+            <div
+              class="timetable__all timetable__all--primary"
+              style="display: none"
+            ></div>
           </div>
-          <p class="btn" id="btn1">전체 시간표 보기</p>
+          <p class="timetable__toggle timetable__toggle--primary">data</p>
         </div>
       </div>
-      <!-- 1table -->
-      <!------------------------------------------------------->
-      <div class="table-box">
-        <div class="table">
-          <div class="table-title">
-            <div class="start">밀양역</div>
-            <div class="arrow">
-              <i class="fa-solid fa-arrow-right fa-lg"></i>
-            </div>
-            <div class="end">부산대 밀양캠퍼스</div>
-          </div>
-          <div class="bus-table">
-            <div class="bus-header">
-              <div class="number">노선명</div>
-              <div class="yeongnamnu">영남루</div>
-              <div class="depart">밀양역</div>
-              <div class="arrive">부산대</div>
-              <div class="note">비고</div>
-            </div>
-            <div id="second-timetable"></div>
 
-            <div id="all-timetable2" style="display: none"></div>
+      <div class="timetable">
+        <div class="timetable__container">
+          <div class="timetable__title">
+            <span class="timetable__point">const data</span>
+            <i class="timetable__arrow fa-solid fa-arrow-right fag-lg"></i>
+            <span class="timetable__point">const data</span>
           </div>
-          <p class="btn" id="btn2">전체 시간표 보기</p>
+          <div class="timetable__content">
+            <div class="timetable__header">
+              <span>text</span>
+              <span>text</span>
+              <span>text</span>
+              <span>text</span>
+              <span>text</span>
+            </div>
+            <!-- 기본 테이블 (최대 3개 항목) -->
+            <div class="timetable__preview timetable__preview--secondary"></div>
+
+            <div
+              class="timetable__all timetable__all--secondary"
+              style="display: none"
+            ></div>
+          </div>
+          <p class="timetable__toggle timetable__toggle--secondary">data</p>
         </div>
       </div>
-      <!-- 2table -->
-      <!------------------------------------------------------->
-      <nav class="nav">
-        <button class="nav__btn active">
-          <a class="nav__link" href="#">평일</a>
-        </button>
-        <button class="nav__btn">
-          <a class="nav__link" href="#">주말·공휴일</a>
-        </button>
-        <button class="nav__btn">
-          <a class="nav__link" href="#">방학</a>
-        </button>
-        <button class="nav__btn">
-          <a class="nav__link" id="timetable-link" href="#">버스시간표</a>
-        </button>
-        <button class="nav__btn">
-          <a class="nav__link" id="route-link" href="#">노선표</a>
-        </button>
+
+      <nav>
+        <ul class="nav__menu">
+          <li class="nav__menu__item">
+            <button
+              type="button"
+              class="nav__menu__btn nav__menu__btn--weekdays active"
+              onclick="location.href=`#`"
+            >
+              평일
+            </button>
+          </li>
+          <li class="nav__menu__item">
+            <button
+              type="button"
+              class="nav__menu__btn nav__menu__btn--weekend"
+            >
+              주말
+            </button>
+          </li>
+          <li class="nav__menu__item">
+            <button
+              type="button"
+              class="nav__menu__btn nav__menu__btn--vacation"
+            >
+              방학
+            </button>
+          </li>
+          <li class="nav__menu__item">
+            <button
+              type="button"
+              class="nav__menu__btn nav__menu__btn--schedule"
+              onclick="location.href=`#`"
+            >
+              시간표
+            </button>
+          </li>
+          <li class="nav__menu__item">
+            <button type="button" class="nav__menu__btn nav__menu__btn--route">
+              노선도xxre
+            </button>
+          </li>
+        </ul>
       </nav>
+
       <footer>
-        <p id="footer-text">
-          <span id="footer-date" class="footer-data"></span>
-          <br /><span class="footer-text"
+        <p id="footer">
+          <span class="footer__text__date"></span>
+          <br /><span class="footer__text footer__text--import"
             >시간표는 실제 운행 시간과 차이가 있을 수 있음.</span
           >
-          <br />2025년 3월 기준 데이터이므로 공휴일은 변경될 수 있음.<br />1학기
-          방학: 6/23 ~ | 2학기 학사일정 미확정(9/1 개강 예상) <br />
-          노선 및 시간표 문의: (주)밀양교통 055-354-5392<br />
-          <span class="footer-email"> </span>
+          <br />2025년 3월 기준 데이터이므로 공휴일은 변경될 수 있음.
+          <br />1학기 방학: 6/23 ~ | 2학기 학사일정 미확정(9/1 개강 예상)
+          <br />노선 및 시간표 문의: (주)밀양교통 055-354-5392
+          <br />
+          <br />
+          <span class="footer__text footer__text--contact"
+            >Website Developer Contact</span
+          >
+          <br /><span class="footer__text footer__text--email"> </span>
         </p>
       </footer>
     </div>
-    <!-- 컨테이너 끝 -->
     <script
       src="https://kit.fontawesome.com/11563ecf12.js"
       crossorigin="anonymous"

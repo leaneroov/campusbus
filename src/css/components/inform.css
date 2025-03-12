@@ -1,0 +1,29 @@
+.info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3.7rem;
+}
+
+.info__box {
+  width: 95%;
+  padding: 0.6rem 0.3rem;
+  border-radius: var(--border-radius);
+  background: var(--white);
+  box-sizing: border-box;
+  border: var(--border-width) solid var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.info__text {
+  font-size: var(--font-size-medium);
+  font-weight: bold;
+  line-height: 1.2rem;
+  text-align: center;
+  color: var(--secondary-color);
+  margin: 0;
+}

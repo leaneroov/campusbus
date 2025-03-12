@@ -1,35 +1,19 @@
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const JavaScriptObfuscator = require("webpack-obfuscator");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   entry: "./src/js/script.js",
   output: {
-    filename: "bundle.[contenthash].js",
     path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
     clean: true,
-    publicPath: "./", // 상대 경로로 변경
-    assetModuleFilename: "assets/[hash][ext][query]",
   },
   module: {
     rules: [
-      {
-        test: /\.css$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              sourceMap: true,
-            },
-          },
-        ],
-      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -41,79 +25,45 @@ module.exports = {
           },
         },
       },
-      // 이미지 파일 처리를 위한 규칙 추가
       {
-        test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
-        type: "asset/resource",
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"], // MiniCssExtractPlugin.loader 대신 style-loader 사용
       },
-      // 폰트 파일 처리를 위한 규칙 추가
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
+        generator: {
+          filename: "images/[name][ext]",
+        },
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
-      favicon: "./logo.png",
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        useShortDoctype: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-        processConditionalComments: true,
-        removeRedundantAttributes: true,
-        removeEmptyAttributes: true,
-        keepClosingSlash: true,
-        scrambleJsContents: true,
-      },
-      inject: true,
+      filename: "index.html",
     }),
     new MiniCssExtractPlugin({
-      filename: "styles.[contenthash].css",
-      chunkFilename: "[id].[contenthash].css",
-    }),
-    new JavaScriptObfuscator({
-      rotateStringArray: true,
-      stringArray: true,
-      stringArrayEncoding: ["base64"],
-      identifierNamesGenerator: "hexadecimal",
+      filename: "main.css",
     }),
   ],
   optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        extractComments: false,
-        terserOptions: {
-          format: {
-            comments: false,
-          },
-          compress: {
-            drop_console: true,
-            drop_debugger: true,
-            pure_funcs: ["console.log", "console.info", "console.debug"],
-          },
-          mangle: {
-            reserved: [],
-            properties: {
-              regex: /^_/,
-            },
-          },
-          toplevel: true,
-        },
-      }),
-      new CssMinimizerPlugin(),
-    ],
-    splitChunks: {
-      chunks: "all",
-      minSize: 0,
-    },
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
   },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    compress: true,
+    port: 9000,
+    hot: true,
+    liveReload: true,
+    watchFiles: ["src/**/*", "index.html"],
+    client: {
+      overlay: true,
+      progress: true,
+    },
+    open: true,
+  },
+  devtool: "inline-source-map",
 };

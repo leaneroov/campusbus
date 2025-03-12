@@ -1,0 +1,54 @@
+.dark-mode {
+  background-color: var(--dark-bg) !important;
+  color: var(--dark-text) !important;
+}
+
+.dark-mode .container {
+  background-color: var(--dark-container-bg);
+}
+
+.dark-mode header {
+  background: var(--primary-color);
+  border-bottom: var(--border-width) solid var(--white);
+}
+
+.dark-mode .info__box,
+.dark-mode .timetable__container {
+  background: var(--dark-component-bg);
+  border-color: var(--dark-accent);
+  border: var(--border-width) solid var(--white);
+}
+
+.dark-mode .info__text,
+.dark-mode .bus-cell,
+.dark-mode .timetable__title,
+.dark-mode .footer-date,
+.dark-mode .footer-text {
+  color: var(--white);
+}
+
+.dark-mode .nav {
+  background-color: var(--dark-accent);
+  border-top: 0.1rem solid var(--white);
+}
+
+.dark-mode .nav__btn {
+  background-color: var(--dark-accent);
+}
+
+.dark-mode .nav__btn.active {
+  background-color: var(--dark-nav-active);
+}
+
+.dark-mode .nav__btn.active .nav__link {
+  color: var(--white);
+}
+
+.dark-mode footer {
+  background-color: var(--dark-container-bg);
+  border-top: var(--border-width) solid var(--white);
+}
+
+.dark-mode .time-highlight {
+  color: var(--dark-highlight);
+}

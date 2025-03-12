@@ -1,0 +1,32 @@
+:root {
+  /* Colors */
+  --primary-color: #103095;
+  --secondary-color: #018738;
+  --white: #ffffff;
+  --black: #000000;
+  --gray-light: #d6d6d6;
+  --gray-dark: #777777;
+
+  /* Dark mode colors */
+  --dark-bg: #121212;
+  --dark-component-bg: #1e1e1e;
+  --dark-text: #e0e0e0;
+  --dark-accent: #1e2761;
+  --dark-highlight: #18a0fb;
+  --dark-container-bg: #181a1b;
+  --dark-footer-text: #aaaaaa;
+  --dark-nav-active: #142b42;
+
+  /* Sizes */
+  --header-height: 3.15rem;
+  --nav-height: 2.8rem;
+  --border-radius: 0.5rem;
+  --border-width: 0.15rem;
+
+  /* Font sizes */
+  --font-size-large: clamp(1.35rem, 3vw, 1.2rem);
+  --font-size-medium: clamp(1.02rem, 2.5vw, 1rem);
+  --font-size-normal: clamp(1rem, 2.5vw, 1rem);
+  --font-size-small: clamp(0.9rem, 2.5vw, 1rem);
+  --font-size-xs: 0.8rem;
+}

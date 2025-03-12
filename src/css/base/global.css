@@ -1,0 +1,16 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* styles/global.css */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
