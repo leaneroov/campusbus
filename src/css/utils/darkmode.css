@@ -1,8 +1,3 @@
-.dark-mode {
-  background-color: var(--dark-bg) !important;
-  color: var(--dark-text) !important;
-}
-
 .dark-mode .container {
   background-color: var(--dark-container-bg);
 }

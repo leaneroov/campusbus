@@ -19,11 +19,11 @@ function decodeBusData() {
     return JSON.parse(base64ToUnicode(encodedBusData));
   } catch (error) {
     return {
-      weekdayscam2sta: [],
+      weekdaystoStation: [],
       weekdayssta2cam: [],
-      weekendcam2sta: [],
+      weekendtoStation: [],
       weekendsta2cam: [],
-      vacationcam2sta: [],
+      vacationtoStation: [],
       vacationsta2cam: [],
     };
   }

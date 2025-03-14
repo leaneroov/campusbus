@@ -39,6 +39,6 @@ header {
   cursor: pointer;
 }
 
-.header__icon__ref:hover {
+.header__icon--ref:hover {
   transform: scale(1.2);
 }

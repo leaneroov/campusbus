@@ -24,9 +24,8 @@
   --border-width: 0.15rem;
 
   /* Font sizes */
-  --font-size-large: clamp(1.35rem, 3vw, 1.2rem);
-  --font-size-medium: clamp(1.02rem, 2.5vw, 1rem);
-  --font-size-normal: clamp(1rem, 2.5vw, 1rem);
-  --font-size-small: clamp(0.9rem, 2.5vw, 1rem);
-  --font-size-xs: 0.8rem;
+  --font-size-xs: clamp(0.5rem, 1vw, 0.5rem);
+  --font-size-small: clamp(0.9rem, 2vw, 1rem);
+  --font-size-medium: clamp(1rem, 2.5vw, 1.2rem);
+  --font-size-large: clamp(1.35rem, 3vw, 1.8rem);
 }

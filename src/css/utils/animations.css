@@ -7,6 +7,6 @@
   }
 }
 
-#refresh-btn.rotating {
+.header__icon--ref.rotating {
   animation: rotate 2s linear infinite;
 }
