@@ -1,5 +1,4 @@
 .timetable__toggle {
-  display: inline-block;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   font-size: var(--font-size-small);
@@ -9,8 +8,6 @@
   background-color: var(--primary-color);
   border: none;
   border-radius: 1.5rem;
-  cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
   overflow: hidden;
 }

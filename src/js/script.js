@@ -152,8 +152,9 @@ document.addEventListener("DOMContentLoaded", function () {
       vacation: "방학",
     };
 
-    if (headerText)
-      headerText.textContent = `${modeText[mode]} - ${dateString}`;
+    if (headerText) {
+      headerText.innerHTML = `${modeText[mode]}  <span class="date-text">${dateString}</span>`;
+    }
   }
 
   // auto change mode by date
@@ -518,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // private email
   function privateEmail() {
-    const emailElement = document.querySelector(".footer-email");
+    const emailElement = document.querySelector(".footer__text--contact");
     if (!emailElement) return;
 
     const parts = {

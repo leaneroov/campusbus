@@ -47,3 +47,8 @@
 .dark-mode .time-highlight {
   color: var(--dark-highlight);
 }
+
+.dark-mode #footer,
+.dark-mode .footer__text {
+  color: var(--white);
+}

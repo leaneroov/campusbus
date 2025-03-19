@@ -2,12 +2,13 @@ footer {
   width: 100%;
   max-width: 480px;
   padding: 0rem;
-  margin-top: 2.5rem;
+  margin-top: 4.3rem;
   background-color: var(--white);
   border-top: var(--border-width) solid var(--primary-color);
   box-sizing: border-box;
   text-align: center;
   padding: 1.45rem 0px 0.99999rem;
+  line-height: 100%;
 }
 
 .footer__text__date {
@@ -15,7 +16,6 @@ footer {
 }
 
 .footer__text {
-  font-size: var(--font-size-xs);
   line-height: 1.4;
   color: var(--gray-dark);
   text-align: center;
@@ -24,5 +24,15 @@ footer {
 
 .footer__text--import {
   color: var(--black);
+  font-weight: bold;
+  font-size: var(--font-size-small);
+}
+
+#footer {
+  font-size: clamp(0.7rem, 1.7vw, 1rem);
+}
+
+.footer__text__date {
+  font-size: var(--font-size-small);
   font-weight: bold;
 }

@@ -19,11 +19,11 @@
 }
 
 .timetable__title {
-  width: 80%;
+  width: 50%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.1rem;
+  font-size: var(--font-size-medium);
   color: var(--primary-color);
   font-weight: bold;
   margin-bottom: 15px;
